@@ -1,0 +1,30 @@
+@startuml
+title Диаграмма контекста новых бизнес-функций системы PropDevelopment
+
+!include https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+
+left to right direction
+
+Person(owner, "Собственник/Жилец", "Управление доступом через мобильное приложение")
+Person(admin, "Администратор", "Управление настройками интеграций новых сервисов")
+
+Boundary(prop_development_system, "PropDevelopment", "Software system"){
+    Container(mobile_app, "Мобильное приложение", "Мобильные приложения для собственников (iOS, Android)")
+    Container(admin_app, "Админка", "Управление настройками интеграций новых сервисов (React)")
+    Container(smart_home_service, "SmartHome Service", "Взаимодействие с партнерскими сервисами")
+}
+
+Boundary(clever_house_system, "Система Умный дом", "External system"){
+    System_Ext(intercom, "Интеллектуальный домофон", "Управление домофонами и биометрией")
+    System_Ext(barrier, "Интеллектуальный шлагбаум", "Управление шлагбаумами")
+}
+
+Rel(owner, mobile_app, "Используют мобильное приложение для доступа к новым функциям Умный дом")
+Rel(admin, admin_app, "Контролируют интеграцию с партнерскими сервисами")
+
+Rel(mobile_app, smart_home_service, "REST")
+Rel(admin_app, smart_home_service, "REST")
+
+Rel(smart_home_service, intercom, "REST")
+Rel(smart_home_service, barrier, "REST")
+@enduml
